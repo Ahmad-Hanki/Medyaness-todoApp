@@ -17,7 +17,7 @@ const Form = () => {
     }
 
     if (id == "") {
-      const res = await axios.post("/api", { title });
+      const res = await axios.post(process.env.NEXT_PUBLIC_API as string, { title });
       console.log(res.status);
       if (res.status == 200) {
         setTitle("");
