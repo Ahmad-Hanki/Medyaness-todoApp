@@ -1,33 +1,34 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import SubmitButton from "./SubmitButton";
 import { Input } from "./ui/input";
 import TitleContext from "./context/TitleContext";
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 const Form = () => {
-  const { setTitle, title } = useContext(TitleContext);
-  const [id, setId] = useState<string>("");
+  const { setTitle, title, id } = useContext(TitleContext);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();    
+  const handleSubmit = async () => {
     if (title == "") {
       return;
     }
 
     if (id == "") {
-      const res = await axios.post(process.env.NEXT_PUBLIC_API as string, { title });
-      console.log(res.status);
-      if (res.status == 200) {
+      const res = await axios.post(process.env.NEXT_PUBLIC_API as string, {
+        title,
+      });
+      if (res.status === 200) {
         setTitle("");
+        redirect("/");
       }
     }
   };
   return (
     <div className="w-full py-9">
       <form
-        onSubmit={handleSubmit}
+        action={handleSubmit}
         className="max-w-3xl mx-auto border border-secondary-foreground space-y-7 py-9 px-5"
       >
         <h1 className="text-center text-3xl font-bold">Add a mission:</h1>
@@ -36,10 +37,12 @@ const Form = () => {
             name="title"
             type="text"
             className="w-full border border-secondary-foreground"
-            defaultValue={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
-          <SubmitButton />
+          {!id && <SubmitButton />}
         </div>
       </form>
     </div>

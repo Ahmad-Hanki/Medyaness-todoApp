@@ -5,10 +5,13 @@ import TitleContext, { TitleContextType } from "./TitleContext";
 
 const TitleProvider = ({ children }: { children: ReactNode }) => {
   const [title, setTitle] = useState<string>("");
+  const [id, setId] = useState<string>("");
 
   const object: TitleContextType = {
     title,
     setTitle,
+    id,
+    setId,
   };
   return (
     <div>
