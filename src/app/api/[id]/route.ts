@@ -1,3 +1,4 @@
+import { deleteDataByAny, updateDataByAny } from "@/db/prismaCodes";
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
@@ -15,11 +16,7 @@ export const DELETE = async (req: Request, { params }: TodoTypeParams) => {
   }
 
   try {
-    await prisma.todo.delete({
-      where: {
-        id,
-      },
-    });
+    await deleteDataByAny("todo", { id });
     return NextResponse.json({ status: 200 });
   } catch (error) {
     return new NextResponse(error as string, { status: 500 });
@@ -35,14 +32,7 @@ export async function PATCH(req: Request, { params }: TodoTypeParams) {
   }
 
   try {
-    await prisma.todo.update({
-      where: {
-        id,
-      },
-      data: {
-        title,
-      },
-    });
+    await updateDataByAny("todo", { id }, { title });
     return NextResponse.json({ status: 200 });
   } catch (error) {
     return new NextResponse(error as string, { status: 500 });

@@ -6,15 +6,14 @@ import { Button } from "./ui/button";
 import { useContext, useEffect, useState } from "react";
 import TitleContext from "./context/TitleContext";
 import useGetData from "@/hooks/useGetData";
+import { postAPI } from "@/services";
 
 const GetAllData = () => {
   const { setId, setTitle, id, title } = useContext(TitleContext);
   const { data, refreshData } = useGetData();
 
   const deleteHandler = async (id: string) => {
-    const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_API_URL as string}/${id}`
-    );
+    const res = await postAPI(`/${id}`, {}, "DELETE");
     if (res.status == 200) {
       await refreshData();
     }
@@ -23,12 +22,7 @@ const GetAllData = () => {
     if (title == "") {
       return;
     }
-    const res = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_URL as string}/${id}`,
-      {
-        title,
-      }
-    );
+    const res = await postAPI(`/${id}`, { title }, "PATCH");
 
     if (res.status == 200) {
       await refreshData();

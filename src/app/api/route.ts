@@ -1,13 +1,10 @@
+import { createNewData, getAllData } from "@/db/prismaCodes";
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
-    const allTodos = await prisma.todo.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const allTodos = await getAllData("todo");
     return NextResponse.json(allTodos, { status: 200 });
   } catch (error) {
     return new NextResponse(error as string, { status: 500 });
@@ -22,11 +19,7 @@ export const POST = async (req: Request) => {
   }
 
   try {
-    await prisma.todo.create({
-      data: {
-        title,
-      },
-    });
+    await createNewData("todo", { title });
     return NextResponse.json({ status: 200 });
   } catch (error) {
     return new NextResponse(error as string, { status: 500 });
