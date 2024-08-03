@@ -4,7 +4,7 @@ import { useContext } from "react";
 import SubmitButton from "./SubmitButton";
 import { Input } from "./ui/input";
 import TitleContext from "./context/TitleContext";
-import axios from "axios";
+import { postAPI } from "@/services";
 import { redirect } from "next/navigation";
 
 const Form = () => {
@@ -16,9 +16,7 @@ const Form = () => {
     }
 
     if (id == "") {
-      const res = await axios.post(process.env.NEXT_PUBLIC_API as string, {
-        title,
-      });
+      const res = await postAPI("", { title });
       if (res.status === 200) {
         setTitle("");
         redirect("/");
