@@ -13,7 +13,7 @@ const GetAllData = () => {
 
   const deleteHandler = async (id: string) => {
     const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_API as string}/${id}`
+      `${process.env.NEXT_PUBLIC_API_URL as string}/${id}`
     );
     if (res.status == 200) {
       await refreshData();
@@ -24,7 +24,7 @@ const GetAllData = () => {
       return;
     }
     const res = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API as string}/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL as string}/${id}`,
       {
         title,
       }
